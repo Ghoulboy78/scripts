@@ -12,15 +12,6 @@ global_tick_warping_player=null;
 
 //Command functions
 
-rate(tick_rate)->(//Set to 0 to stop this working. Setting to low tps screws stuff up. DON'T USE
-    if(!__check_type(tick_rate,'number'),return('Invalid argument type'));
-    print('Current tps is: '+tick_rate);
-    global_tick_rate=tick_rate;
-    while(global_tick_rate==tick_rate,10e10,//159 irl years at 20 tps
-        game_tick(1000/tick_rate)
-    )
-);
-
 warp(ticks)->(//Seems complex at first, then seems easy, but is really hard if you wanna do it quick
     if(!__check_type(ticks,'number'),return('Invalid argument type'));//Little extra something
     if(global_tick_warping_player,
