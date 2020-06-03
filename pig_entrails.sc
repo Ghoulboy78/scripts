@@ -91,10 +91,7 @@ _check_sacrifice(entrails,player,init_sacrifice)->(
             blessing_val=round(rand(15));//1/10 infinity, 2/5 flame,
             blessing=first(global_blessings,blessing_val>=_:1 && blessing_val<=_:2);
             if(!blessing,return());
-            prev_ench=str(query(bow,'item'):2:'Enchantments[]')-'['-']';
-            if(!prev_ench~blessing:0,
-                run(str('data merge entity %s {Item:{id:"minecraft:bow",Count:1b,tag:{Enchantments:[%s{id:"minecraft:%s",lvl:%ds}]}}}',bow~'command_name',if(prev_ench!='null',prev_ench+',',''),blessing:0,round(rand(blessing:3 -1))+1))
-            );
+            run(str('data modify entity %s Item.tag.Enchantments append value {id:"minecraft:%s",lvl:%ds}',bow~'command_name',blessing:0,round(rand(blessing:3 -1))+1));
             print('You bow shall now shoot '+blessing:4);//data merge entity @e[type=item,limit=1] {Item:{id:"minecraft:bow",Count:1b,tag:{Enchantments:[{id:"minecraft:power",lvl:1s}]}}}
             modify(entrails,'remove')
         )
