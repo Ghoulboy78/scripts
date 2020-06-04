@@ -19,7 +19,7 @@ __on_player_uses_item(player, item_tuple, hand)->(
             for(inventory_get(player),if(_:0==bridging_block,limit+=_:1));
             limit
         );
-        facing=if(player~'facing'!='down',
+        facing=if(player~'facing'!='up',
             player~'facing',//Don't want to start placing blocks upwards or we'll suffocate.
             query(player,'facing',1)
         );
