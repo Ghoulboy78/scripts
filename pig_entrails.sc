@@ -55,10 +55,9 @@ _check_sacrifice(entrails,player,init_sacrifice)->(
 
     if(block!='obsidian'&&block!='air'&&block!='fire',
         print('How dare you disrespect the offering! You shall be punished!');
-        if(query(player,'holds','offhand')==l('flint',1,'{RepairCost:0,display:{Name:\'{"text":"Sacrificial knife"}\'}}'),
+        if(query(player,'holds','offhand')==l('flint',query(player,'holds','offhand'):1,'{RepairCost:0,display:{Name:\'{"text":"Sacrificial knife"}\'}}'),
             print('A priest should know better!');
             inventory_set(player,40,query(player,'holds','offhand'):1-1),//Remove a sacrificial knife, cos you're unworthy of being a priest
-            print(query(player,'holds','offhand'));
             modify(player,'kill')
         );
         modify(entrails,'remove');
@@ -66,7 +65,7 @@ _check_sacrifice(entrails,player,init_sacrifice)->(
     );
 
     if(init_sacrifice==0&&block=='obsidian',//If you're not holding sacrificial knife, you die
-        if(query(player,'holds','offhand')!=l('flint',1,'{RepairCost:0,display:{Name:\'{"text":"Sacrificial knife"}\'}}'),
+        if(query(player,'holds','offhand')!=l('flint',query(player,'holds','offhand'):1,'{RepairCost:0,display:{Name:\'{"text":"Sacrificial knife"}\'}}'),
             print('You have been cursed by Hades, the god of the Underworld!');
             modify(player,'kill'),
             print('The gods have held off their anger for you, priest. They may not do so again!')
@@ -76,11 +75,11 @@ _check_sacrifice(entrails,player,init_sacrifice)->(
     );
 
     if(block=='obsidian',//Proper altar required, of course
-        if(block(pos(entrails))=='fire'&&init_sacrifice>12,//Burn to get goodies, todo combine with bow to make it stronger
+        if(block(pos(entrails))=='fire'&&init_sacrifice>12,//Burn to get goodies
             print('The god Hades has accepted your offering, mortal!');
             sacrifice=round(rand(150));
             offering=first(global_rewards,sacrifice>=_:1 && sacrifice<=_:2);
-            if(!offering,return());
+            if(!offering,modify(entrails,'remove');return(print('Or not!')));
             spawn('item',pos(player),str('{Item:{id:"minecraft:%s",Count:%db}}',offering:0,offering:3));
             print('For your offering, you shall be rewarded with '+offering:4);
             modify(entrails,'remove')
@@ -88,10 +87,19 @@ _check_sacrifice(entrails,player,init_sacrifice)->(
 
         if(bow=first(filter(entity_area('items',ex,ey,ez,0.5,0.5,0.5),_~'item':0=='bow'),_~'item':2:'Damage'==0),
             print('The god Apollo is happy with your offering, mortal, and shall bless your bow!');
-            blessing_val=round(rand(15));//1/10 infinity, 2/5 flame,
+            blessing_val=round(rand(15));
             blessing=first(global_blessings,blessing_val>=_:1 && blessing_val<=_:2);
-            if(!blessing,return());
-            run(str('data modify entity %s Item.tag.Enchantments append value {id:"minecraft:%s",lvl:%ds}',bow~'command_name',blessing:0,round(rand(blessing:3 -1))+1));
+            if(!blessing,modify(entrails,'remove');return(print('Nah, kidding, he won\'t!')));
+            run(
+                str(//Broke it up so you can actually see. Thanks to Aeldrion in McCommands Discord
+                    'execute as %s unless data entity @s Item.tag.Enchantments[{id: "minecraft:%s"}] run '+
+                    'data modify entity @s Item.tag.Enchantments append value {id:"minecraft:%s",lvl:%ds}',
+                    bow~'command_name',
+                    blessing:0,
+                    blessing:0,
+                    round(rand(blessing:3 -1))+1;
+                )
+            );
             print('You bow shall now shoot '+blessing:4);//data merge entity @e[type=item,limit=1] {Item:{id:"minecraft:bow",Count:1b,tag:{Enchantments:[{id:"minecraft:power",lvl:1s}]}}}
             modify(entrails,'remove')
         )
