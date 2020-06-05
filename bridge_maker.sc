@@ -5,6 +5,8 @@
 
 global_bridge_tool='golden_sword';
 
+global_is_survival=false;
+
 global_shift=false;
 
 //Events
@@ -23,6 +25,7 @@ __on_player_uses_item(player, item_tuple, hand)->(
             player~'facing',//Don't want to start placing blocks upwards or we'll suffocate.
             query(player,'facing',1)
         );
+        global_is_survival=!(player~'gamemode_id' % 2);
         __start_placing(pos_offset(pos(player)-l(0,1,0),facing),bridging_block,limit,facing)
     )
 );
@@ -32,9 +35,8 @@ __on_player_uses_item(player, item_tuple, hand)->(
 __start_placing(pos,item,limit,facing)->(
     if(limit==0,return(print('Finished placing bridge!')));
     player=player();
-    is_survival=!(player~'gamemode_id' % 2);
     if(place_item(item,pos,facing),
-        if(is_survival,
+        if(global_is_survival,
             if(global_shift,//Cos then ur only calculating offhand items
                 inventory_set(player,40,query(player,'holds','offhand'):1-1),
                 inventory_remove(player,item)
