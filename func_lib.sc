@@ -12,10 +12,6 @@ __config()->m(l('stay_loaded','true'),l('scope','global'));
 
 //Functions
 
-__global_new_players()->return(global_new_players);
-
-__global_left_players()->return(global_left_players);
-
 __holds(entity, item_type, enchantment) -> (
 	if (entity~'gamemode_id'==3, return(0));
 	for(l('mainhand','offhand'),
@@ -39,11 +35,7 @@ __holds(entity, item_type, enchantment) -> (
 __check_prime(n) -> !first( range(2, sqrt(n)+1), !(n % _) );
 
 //Global variables
-global_players=l();
 
-global_new_players=l();
-
-global_left_players=l();
 
 //Events
 
