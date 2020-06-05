@@ -1,4 +1,4 @@
-//Issue #268 on gnembon/fabric-carpet
+//Right clicking at a villager with blaze rod will show a line from you to villager, villager to workstation
 //By: Ghoulboy
 
 __on_player_uses_item(player, item_tuple, hand)->(
@@ -10,9 +10,8 @@ __on_player_uses_item(player, item_tuple, hand)->(
             pos=mem:'"minecraft:job_site"':'value':'pos'||mem:'"minecraft:job_site"':'pos'||null;
             if(pos,
                 l(x,y,z)=nbt(pos):'[]';
-                print('click');
-                draw_shape('line','happy_villager',pos(entity),pos(player));
-                draw_shape('line','happy_villager',pos(entity),l(x+0.5,y+0.5,z+0.5),0.1)
+                draw_shape('line',20,'from',pos(entity)+l(0,entity~'eye_height',0),'to',pos(player)+l(0,player~'eye_height'/2,0),'color',0xFF0000FF,'width',10);
+                draw_shape('line',20,'from',pos(entity)+l(0,entity~'eye_height',0),'to',l(x+0.5,y+0.5,z+0.5),'color',0xFF0000FF,'width',10)
             )
         )
     )
