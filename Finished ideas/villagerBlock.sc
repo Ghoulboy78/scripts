@@ -11,8 +11,8 @@ __on_player_uses_item(player, item_tuple, hand)->(
             if(pos,
                 l(x,y,z)=nbt(pos):'[]';
                 print('click');
-                particle_line('happy_villager',pos(entity),pos(player));
-                particle_line('happy_villager',pos(entity),l(x+0.5,y+0.5,z+0.5),0.1)
+                draw_shape('line','happy_villager',pos(entity),pos(player));
+                draw_shape('line','happy_villager',pos(entity),l(x+0.5,y+0.5,z+0.5),0.1)
             )
         )
     )
