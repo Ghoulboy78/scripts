@@ -1,4 +1,5 @@
 //Bridge maker, right click with golden sword and blocks in offhand to start placing.
+//Video: https://youtu.be/6QxQXymqRoA
 //By: Ghoulboy
 
 //Global variables
