@@ -24,6 +24,9 @@ global_lifetimes=m();//SO that I can measure multiple lifetimes at the same time
 
 global_lifetimes_global=m();
 
+global_pos1=l(0,0,0);
+
+global_pos2=l(0,0,0);
 
 //Events
 

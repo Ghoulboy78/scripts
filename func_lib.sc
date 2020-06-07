@@ -7,10 +7,17 @@ __config()->m(l('stay_loaded','true'),l('scope','global'));
 
 __block_pos(entity)->return(pos(block(pos(entity))));
 
-__euclidean(pos1,pos2)->(
+__distance(pos1,pos2,type)->(
     l(x1,y1,z1) = pos1;
     l(x2,y2,z2) = pos2;
-    return(sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)+(z1-z2)*(z1-z2)))
+    l(dx,dy,dz) = l(abs(x1-x2),abs(y1-y2),abs(z1-z2));
+    if(type=='euclidean',
+        return(sqrt(dx*dx+dy*dy+dy*dy)),
+        type=='manhattan',
+        return(dx+dy+dz),
+        type=='cylindrical',
+        return(sqrt(dx*dx+dz*dz))
+    )
 );
 
 __in_volume(box_1,box_2,pos)->(//Checks if pos is in volume defined by box_1 and box_2
@@ -50,6 +57,6 @@ __holds(entity, item_type, enchantment) -> (
 		)
 	);
 	level
-);
+)
 
 __check_prime(n) -> !first( range(2, sqrt(n)+1), !(n % _) );

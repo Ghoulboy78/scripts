@@ -1,7 +1,7 @@
 //Carpet rule
 //By: Ghoulboy
 
-import('func_lib','__in_volume','__euclidean','__block_pos');
+import('func_lib','__in_volume','__distance');
 
 __config()->m(l('scope','global'));
 
@@ -10,7 +10,7 @@ __on_tick()->(
         m=_;
         l(x,y,z)=pos(m);
         if(query(m,'has_tag','player_nearby'),
-            if(p=filter(entity_area('players',x,y,z,24,24,24),__euclidean(pos(_),pos(m))<=24),
+            if(p=filter(entity_area('players',x,y,z,24,24,24),__distance(pos(_),pos(m),'euclidean')<=24),
                 modify(m,'tag','player_nearby');
                 return()
             );
