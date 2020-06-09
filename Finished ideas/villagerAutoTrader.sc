@@ -12,10 +12,10 @@ __on_tick()->(
             trade=first(nbt(_~'nbt':'Offers':'Recipes'):'[]',
                 _:'buy':'id'=='minecraft:emerald' &&//only emerald trades
                 _:'buyB':'id'=='minecraft:air' &&//don't want second trade item
-                _:'maxUses'!=0 &&//Cos if not it's cheaty
+                _:'maxUses'!=0 &&//Cos if not it's cheaty, dont work rn
                 cost=_:'buy':'Count'<=hand_count//Need to have enough emeralds
             );
-            run(str('data merge entity %s {maxUses:%d,HandItems:[{id:"minecraft:emerald",Count:%db}]}',_~'command_name',trade:'maxUses'-1,hand_count-cost));
+            run(str('data merge entity %s {HandItems:[{id:"minecraft:emerald",Count:%db}]}',_~'command_name',hand_count-cost));
             spawn('item',pos(_),str('{Item:{id:"%s",Count:%db,PickupDelay:10}}',trade:'sell':'id',trade:'sell':'Count'));
         )
     )
