@@ -57,6 +57,6 @@ __holds(entity, item_type, enchantment) -> (
 		)
 	);
 	level
-)
+);
 
 __check_prime(n) -> !first( range(2, sqrt(n)+1), !(n % _) );
