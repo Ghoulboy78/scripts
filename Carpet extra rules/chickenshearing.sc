@@ -1,4 +1,4 @@
-//Inspired by /carpet chickenShearing from carpet-extra
+//Replaces chickenShearing
 //By: Ghoulboy
 
 __on_player_interacts_with_entity(player, entity, hand)->(
