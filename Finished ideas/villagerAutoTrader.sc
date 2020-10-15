@@ -21,7 +21,7 @@ __on_tick()->(
 
             modify(_,'nbt_merge',str('{HandItems:[{id:"minecraft:emerald",Count:%sb}]}',hand_count-cost));
 
-            spawn('item',pos(player('Ghoulboy')),str('{Item:{id:"%s",Count:%db,PickupDelay:0}}',trade:'sell':'id',trade:'sell':'Count'));
+            spawn('item',pos(_),str('{Item:{id:"%s",Count:%db,PickupDelay:0}}',trade:'sell':'id',trade:'sell':'Count'));
         )
     )
 )
