@@ -1,8 +1,14 @@
 //Inspired by carpet rule
 //By: Ghoulboy
 
+__command()->null;
+
 global_merge_radius = 0.5;//the radius around which to search for nearby xp orbs. By default set to 0.5 so it will collide, but can be increased
 global_merge_speed = 50;//the speed (in ticks) at which merges occur. 50 (default) means that orbs will merge evry 50 ticks. Values less than 1 will still means evry tick, as you can't go faster than that.
+
+change_merge_radius(radius)->global_merge_radius=radius;//Making it more customizable
+
+change_merge_speed(speed)->global_merge_speed=speed;//Making it more customizable
 
 __on_tick()->(
     for(entity_selector('@e[type=experience_orb]'),
