@@ -6,7 +6,7 @@ global_merge_speed = 50;//the speed (in ticks) at which merges occur. 50 (defaul
 
 __on_tick()->(
     for(entity_selector('@e[type=experience_orb]'),
-        if(_~'age'<50,continue(),orb1=_);
+        if(_~'age'<global_merge_speed,continue(),orb1=_);
         [x1,y1,z1]=pos(orb1);
         orb2=first(entity_area('experience_orb',x1,y1,z1,global_merge_radius,global_merge_radius,global_merge_radius),_!=orb1 && _~'age'>=global_merge_speed);
         if(orb2,
