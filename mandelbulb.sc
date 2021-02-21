@@ -1,3 +1,6 @@
+//Mandelbulb script by Ghoulboy
+//Inspired by EDDXample's video: https://www.youtube.com/watch?v=-h41T4x3QkY
+
 import('math','_vec_length', '_round');
 
 __config() ->{
@@ -44,13 +47,13 @@ mandelbulb(pos_diff, avg_pos, zoom) ->(
                 pos = ([x, y, z])/pos_diff;
                 newpos = pos;
                 op = 0;
-                while( _vec_length(newpos) < 2, global_limit,
-                    newpos = pos + mandfunc(newpos);
+                while( newpos:0^2 + newpos:1^2 + newpos:2^2 > 4, global_limit, //doing it this way to be more computationally efficient
+                    newpos = mandfunc(newpos) + pos; //as showcased in EDDXample's video
                     op+=1
                 );
                 global_completeness += 1/volume; // could update percentage with calculation, but this is faster  and same efficiency tbh
 
-                if((global_completeness*volume)%10, sleep()); //sleeping a bit every 10th position, to allow to handle server stopping/crashing, at the cost of being slower for small operations
+                if((global_completeness*volume)%10, sleep(10)); //sleeping a bit every 10th position, to allow to handle server stopping/crashing, at the cost of being slower for small operations
 
                 material = global_colours:round(ln(op));
 
