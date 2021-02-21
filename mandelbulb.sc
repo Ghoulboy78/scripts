@@ -22,8 +22,6 @@ global_material = 'stained_glass';
 
 global_limit = 2000;
 
-global_completeness = 0; // percentage to display to player while waiting for result
-
 mandfunc(pos)->(
     [x, y, z] = pos;
     n = 8;
@@ -34,7 +32,6 @@ mandfunc(pos)->(
 );
 
 mandelbulb(pos_diff, avg_pos) ->(
-    ret = [];
 
     pos_diff = map(pos_diff/2, round(_));
 
@@ -54,11 +51,12 @@ mandelbulb(pos_diff, avg_pos) ->(
 
                 if((global_completeness*volume)%10, sleep()); //ticking game a bit every 10th position, to allow to handle server stopping/crashing, at the cost of being slower for small operations
 
-                ret += [[x, y, z] +avg_pos, op]
+                material = global_colours:round(ln(op));
+                set([x, y, z] +avg_pos, material + if(material != 'air', global_material, '')); //cos if its air we dont wanna add suffix
             );
+            game_tick(50)
         );
-    );
-    ret
+    )
 );
 
 fractal(start, end)->(
@@ -68,29 +66,10 @@ fractal(start, end)->(
 
     start_time = unix_time();
 
-    mandfunc_task = task('mandelbulb', pos_diff, avg_pos);
+    mandelbulb(pos_diff, avg_pos);
 
-    while(!task_completed(mandfunc_task), 10^10, //unlikely to reach this point, if you do then u have major problems and stopping is best
-
-        print(format('gi Operation '+ _round(global_completeness*100, 0.1) + '% completed')); //removed commandBlockOutput check as it was too expensive
-        sleep(1000) // so that you get periodic message, and so that task has time to complete before running out. Also cos cant do task_dock on main thread :-(
-    );
-
-    if(task_completed(mandfunc_task), // in case we exited form while loop due to timeout, in which case we say oops
-        blocks = task_value(mandfunc_task); //still gotta set blocks ofc
-
-        for(blocks,
-            material = global_colours:round(ln(op));
-            set(_:0, material + if(material != 'air', global_material, '')); //cos if its air we dont wanna add suffix
-        );
-        if(system_info('world_gamerules'):'commandBlockOutput', // to toggle feedback
-            end_time = unix_time();
-            print(format('gi Completed operation in ' + (end_time-start_time) + ' ms or ' + (end_time-start_time)/1000 + ' s'))
-        )
-        ,
-        if(system_info('world_gamerules'):'commandBlockOutput',
-            print(format('gi Oops, it failed... try again with less volume or complexity...'))
-        )
-    );
-    global_completeness = 0
+    if(system_info('world_gamerules'):'commandBlockOutput', // to toggle feedback
+        end_time = unix_time();
+        print(format('gi Completed operation in ' + (end_time-start_time) + ' ms or ' + (end_time-start_time)/1000 + ' s'))
+    )
 );
