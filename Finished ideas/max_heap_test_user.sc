@@ -2,9 +2,6 @@
 __config()->{
     'libraries'->[
         {
-            'source'->'https://raw.githubusercontent.com/Ghoulboy78/scripts/master/Finished%20ideas/classes.scl'
-        },
-        {
             'source'->'https://raw.githubusercontent.com/Ghoulboy78/scripts/master/Finished%20ideas/max_heap.scl'
         }
     ]
