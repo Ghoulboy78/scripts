@@ -6,6 +6,7 @@
 //
 //By: Ghoulboy
 
+print('Began Loading max_heap.scl');
 __config()->{
     'libraries'->[
         {
@@ -13,9 +14,9 @@ __config()->{
         }
     ]
 };
-
+print('Loaded config for max_heap.scl');
 import('classes', 'new_class', 'new_object', 'call_function');
-
+print('Imported classes.scl for max_heap.scl');
 max_heap_class = new_class('MaxHeap', {
     '__init__'->_(self, max_size)->(
         self:'max_size' = max_size;
@@ -72,6 +73,8 @@ max_heap_class = new_class('MaxHeap', {
 });
 
 max_heap(outer(max_heap_class), maxsize) -> new_object(max_heap_class, maxsize);
+
+print('Finished Loading max_heap.scl');
 
 //This is an example of using a MaxHeap in another app
 //
