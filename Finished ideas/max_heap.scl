@@ -10,7 +10,7 @@ print('Began Loading max_heap.scl');
 __config()->{
     'libraries'->[
         {
-            'source'->'https://raw.githubusercontent.com/Ghoulboy78/scripts/master/Finished%20ideas/classes.scl'
+            'source'->'classes.scl'
         }
     ]
 };
