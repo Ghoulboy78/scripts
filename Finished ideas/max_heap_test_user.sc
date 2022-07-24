@@ -10,3 +10,4 @@ __config()->{
 import('max_heap', 'max_heap');
 
 import('classes', 'new_class', 'new_object', 'call_function');
+print('Successfully loaded max_heap_test_user.sc');
